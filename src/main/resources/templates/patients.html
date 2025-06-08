@@ -1,19 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-        />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Patients Management</title>
-        <link
-            rel="stylesheet"
-            href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css"
-        />
-    </head>
-    <body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="UTF-8">
+    <title>Patients</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css"/>
+</head>
+
+<body>
+<div layout:fragment="content1">
         <div class="p-3">
             <div class="card">
                 <div class="card-header">Liste des patients</div>
@@ -77,9 +73,9 @@
                                 th:text="${status.index}"
                             ></a>
                         </li>
-                    </ul>
-                </div>
+                    </ul>                </div>
             </div>
         </div>
-    </body>
+</div>
+</body>
 </html>
