@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="template1">
 <head>
     <meta charset="UTF-8">
@@ -12,11 +13,12 @@
 <div layout:fragment="content1">
         <div class="p-3">        <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <span>Liste des patients</span>
-                <a th:href="@{/formPatients}" class="btn btn-success">Ajouter Patient</a>
+                <span><i class="fas fa-users"></i> Liste des patients</span>
+                <a th:href="@{/admin/formPatients}" class="btn btn-success" sec:authorize="hasRole('ADMIN')">
+                    <i class="fas fa-plus"></i> Ajouter Patient
+                </a>
             </div>
-                <div class="card-body">
-                    <form th:action="@{/index}" method="get">
+                <div class="card-body">                    <form th:action="@{/user/index}" method="get">
                         <div class="input-group mb-3">
                             <input
                                 type="text"
@@ -29,53 +31,58 @@
                                 class="btn btn-outline-secondary"
                                 type="submit"
                             >
-                                Rechercher
+                                <i class="fas fa-search"></i> Rechercher
                             </button>
                         </div>
                     </form>
-                    <table class="table">
-                        <thead>
+                    <table class="table">                        <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>Nom</th>
                                 <th>Date de Naissance</th>
                                 <th>Malade</th>
                                 <th>Score</th>
+                                <th sec:authorize="hasRole('ADMIN')">Actions</th>
                             </tr>
-                        </thead>
-                        <tbody th:each="patient:${patientsList}">
+                        </thead>                        <tbody>
+                        <tr th:each="patient:${patientsList}">
                             <td th:text="${patient.id}"></td>
                             <td th:text="${patient.nom}"></td>
                             <td th:text="${patient.dateNaissance}"></td>
-                            <td th:text="${patient.malade}"></td>
-                            <td th:text="${patient.score}"></td>
                             <td>
+                                <span th:if="${patient.malade}" class="badge bg-danger">Oui</span>
+                                <span th:unless="${patient.malade}" class="badge bg-success">Non</span>
+                            </td>
+                            <td th:text="${patient.score}"></td>
+                            <td sec:authorize="hasRole('ADMIN')">
+                                <a
+                                    th:href="@{/admin/editPatient(id=${patient.id},keyword=${keyword},page=${currentPage})}"
+                                    class="btn btn-warning btn-sm me-1"
+                                    title="Modifier"
+                                >
+                                    <i class="fas fa-edit"></i>
+                                </a>
                                 <a
                                     onclick="return confirm('Confirmer l\'opération de suppression ?')"
-                                    th:href="@{delete(id=${patient.id}, keyword=${keyword}, page=${currentPage})}"
-                                    class="btn btn-danger"
+                                    th:href="@{/admin/delete(id=${patient.id}, keyword=${keyword}, page=${currentPage})}"
+                                    class="btn btn-danger btn-sm"
+                                    title="Supprimer"
                                 >
-                                    Delete</a
-                                >
-                            </td>                            <td>
-                                <a
-                                    th:href="@{/editPatient(id=${patient.id},keyword=${keyword},page=${currentPage})}"
-                                    class="btn btn-warning"
-                                    >Edit</a
-                                >
+                                    <i class="fas fa-trash"></i>
+                                </a>
                             </td>
+                        </tr>
                         </tbody>
-                    </table>
-                    <ul class="nav nav-pills">
+                    </table>                    <ul class="nav nav-pills">
                         <li th:each="page,status:${pages}">
                             <a
-                                th:href="@{/index(page=${status.index}, keyword=${keyword})}"
+                                th:href="@{/user/index(page=${status.index}, keyword=${keyword})}"
                                 th:class="${status.index == currentPage ? 'btn btn-info' : 'btn btn-outline-info'}"
                                 class="btn btn-outline-info"
                                 th:text="${status.index}"
                             ></a>
                         </li>
-                    </ul>                </div>
+                    </ul></div>
             </div>
         </div>
 </div>

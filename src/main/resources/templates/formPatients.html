@@ -8,45 +8,56 @@
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css"/>
 </head>
 <body>
-<div layout:fragment="content1">
-    <div class="col-md-6 offset-3">
-        <h1>Formulaire d'ajout des patients</h1>
-        <form method="post" th:action="@{save(page=${page},keyword=${keyword})}">
-            <div class="form-group">
-                <label for="nom">
-                    Name:
+<div layout:fragment="content1">    <div class="col-md-6 offset-3">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4><i class="fas fa-user-plus"></i> Formulaire d'ajout des patients</h4>
+            </div>
+            <div class="card-body"><form method="post" th:action="@{/admin/save(page=${page},keyword=${keyword})}">
+            <div class="form-group mb-3">
+                <label for="nom" class="form-label">
+                    <i class="fas fa-user"></i> Nom:
                 </label>
-                <input id="nom" class="form-control" type="text" name="nom" th:value="${patient.nom}"/>
+                <input id="nom" class="form-control" type="text" name="nom" th:value="${patient.nom}" required/>
                 <span class="text-danger" th:errors="${patient.nom}"></span>
             </div>
             
-            <div class="form-group">
-                <label for="dateNaissance">
-                    Date de naissance:
+            <div class="form-group mb-3">
+                <label for="dateNaissance" class="form-label">
+                    <i class="fas fa-calendar"></i> Date de naissance:
                 </label>
-                <input id="dateNaissance" class="form-control" type="date" name="dateNaissance" th:value="${patient.dateNaissance}"/>
+                <input id="dateNaissance" class="form-control" type="date" name="dateNaissance" th:value="${patient.dateNaissance}" required/>
                 <span class="text-danger" th:errors="${patient.dateNaissance}"></span>
             </div>
             
-            <div class="form-group">
-                <label for="malade">
-                    Malade:
-                </label>
-                <input id="malade" type="checkbox" name="malade" th:checked="${patient.malade}"/>
+            <div class="form-group mb-3">
+                <div class="form-check">
+                    <input id="malade" class="form-check-input" type="checkbox" name="malade" th:checked="${patient.malade}"/>
+                    <label for="malade" class="form-check-label">
+                        <i class="fas fa-stethoscope"></i> Malade
+                    </label>
+                </div>
                 <span class="text-danger" th:errors="${patient.malade}"></span>
             </div>
             
-            <div class="form-group">
-                <label for="score">
-                    Score:
+            <div class="form-group mb-3">
+                <label for="score" class="form-label">
+                    <i class="fas fa-chart-line"></i> Score:
                 </label>
-                <input id="score" class="form-control" type="text" name="score" th:value="${patient.score}"/>
+                <input id="score" class="form-control" type="number" name="score" th:value="${patient.score}" min="0" max="1000"/>
                 <span class="text-danger" th:errors="${patient.score}"></span>
             </div>
             
-            <button type="submit" class="btn btn-outline-success">Ajouter</button>
-            <a th:href="@{/index}" class="btn btn-outline-secondary">Annuler</a>
-        </form>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> Ajouter
+                </button>
+                <a th:href="@{/user/index}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Annuler
+                </a>
+            </div>
+        </form>            </div>
+        </div>
     </div>
 </div>
 </body>
