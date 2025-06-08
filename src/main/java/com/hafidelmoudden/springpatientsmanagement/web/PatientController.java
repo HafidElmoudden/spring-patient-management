@@ -54,11 +54,15 @@ public class PatientController {
         return "editPatient";
     }
 
-    @PostMapping("/save")
+    @GetMapping("/formPatients")
+    public String formPatients(Model model) {
+        model.addAttribute("patient", new Patient());
+        return "formPatients";
+    }    @PostMapping("/save")
     public String savePatient(Model model, @Valid Patient patient, BindingResult bindingResult,
                              @RequestParam(defaultValue = "0") int page,
                              @RequestParam(defaultValue = "") String keyword) {
-        if (bindingResult.hasErrors()) return "editPatient";
+        if (bindingResult.hasErrors()) return "formPatients";
         patientRepository.save(patient);
         return "redirect:/index?page=" + page + "&keyword=" + keyword;
     }
