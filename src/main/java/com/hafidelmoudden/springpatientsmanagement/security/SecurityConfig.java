@@ -21,8 +21,6 @@ public class SecurityConfig {
     private PasswordEncoder passwordEncoder;
     UserDetailServiceImpl userDetailServiceImpl;
 
-    // Commented out in-memory user details manager - now using database
-    //@Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
         return new InMemoryUserDetailsManager(
                 User.withUsername("user1").password(passwordEncoder.encode("1234")).roles("USER").build(),
