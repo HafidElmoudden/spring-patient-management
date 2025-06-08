@@ -1,59 +1,85 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Patients Management</title>
-    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
-</head>
-<body>
-<div class="p-3">
-    <div class="card">
-        <div class="card-header">
-            Liste des patients
-        </div>
-        <div class="card-body">
-            <form th:action="@{/index}" method="get">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Nom du patient" name="keyword" th:value="${keyword}">
-                    <button class="btn btn-outline-secondary" type="submit">Rechercher</button>
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Patients Management</title>
+        <link
+            rel="stylesheet"
+            href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css"
+        />
+    </head>
+    <body>
+        <div class="p-3">
+            <div class="card">
+                <div class="card-header">Liste des patients</div>
+                <div class="card-body">
+                    <form th:action="@{/index}" method="get">
+                        <div class="input-group mb-3">
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Nom du patient"
+                                name="keyword"
+                                th:value="${keyword}"
+                            />
+                            <button
+                                class="btn btn-outline-secondary"
+                                type="submit"
+                            >
+                                Rechercher
+                            </button>
+                        </div>
+                    </form>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nom</th>
+                                <th>Date de Naissance</th>
+                                <th>Malade</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody th:each="patient:${patientsList}">
+                            <td th:text="${patient.id}"></td>
+                            <td th:text="${patient.nom}"></td>
+                            <td th:text="${patient.dateNaissance}"></td>
+                            <td th:text="${patient.malade}"></td>
+                            <td th:text="${patient.score}"></td>
+                            <td>
+                                <a
+                                    onclick="return confirm('Confirmer l\'opération de suppression ?')"
+                                    th:href="@{delete(id=${patient.id}, keyword=${keyword}, page=${currentPage})}"
+                                    class="btn btn-danger"
+                                >
+                                    Delete</a
+                                >
+                            </td>                            <td>
+                                <a
+                                    th:href="@{/editPatient(id=${patient.id},keyword=${keyword},page=${currentPage})}"
+                                    class="btn btn-warning"
+                                    >Edit</a
+                                >
+                            </td>
+                        </tbody>
+                    </table>
+                    <ul class="nav nav-pills">
+                        <li th:each="page,status:${pages}">
+                            <a
+                                th:href="@{/index(page=${status.index}, keyword=${keyword})}"
+                                th:class="${status.index == currentPage ? 'btn btn-info' : 'btn btn-outline-info'}"
+                                class="btn btn-outline-info"
+                                th:text="${status.index}"
+                            ></a>
+                        </li>
+                    </ul>
                 </div>
-            </form>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nom</th>
-                        <th>Date de Naissance</th>
-                        <th>Malade</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-                <tbody th:each="patient:${patientsList}">
-                    <td th:text="${patient.id}"></td>
-                    <td th:text="${patient.nom}"></td>
-                    <td th:text="${patient.dateNaissance}"></td>
-                    <td th:text="${patient.malade}"></td>
-                    <td th:text="${patient.score}"></td>
-                    <td>
-                        <a onclick="return confirm('Confirmer l\'opération de suppression ?')"
-                           th:href="@{delete(id=${patient.id}, keyword=${keyword}, page=${currentPage})}" class="btn btn-danger">
-                            Delete</a>
-                    </td>
-                </tbody>
-            </table>
-            <ul class="nav nav-pills">
-               <li th:each="page,status:${pages}">
-                   <a th:href="@{/index(page=${status.index}, keyword=${keyword})}"
-                      th:class="${status.index == currentPage ? 'btn btn-info' : 'btn btn-outline-info'}"
-                      class="btn btn-outline-info" th:text="${status.index}"></a>
-               </li>
-            </ul>
+            </div>
         </div>
-    </div>
-</div>
-
-</body>
+    </body>
 </html>

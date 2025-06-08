@@ -7,7 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @SpringBootApplication
 public class SpringPatientsManagementApplication implements CommandLineRunner {
@@ -20,8 +20,8 @@ public class SpringPatientsManagementApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        patientRepository.save(new Patient(null, "Hafid", new Date(), false, 15));
-        patientRepository.save(new Patient(null, "Yassine", new Date(), false, 10));
-        patientRepository.save(new Patient(null, "Omar", new Date(), true, 20));
+        patientRepository.save(new Patient(null, "Hafid", LocalDate.of(1990, 5, 15), false, 15));
+        patientRepository.save(new Patient(null, "Yassine", LocalDate.of(1985, 8, 20), false, 10));
+        patientRepository.save(new Patient(null, "Omar", LocalDate.of(1995, 12, 10), true, 20));
     }
 }
